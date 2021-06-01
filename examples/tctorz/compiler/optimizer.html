@@ -1,0 +1,60 @@
+<!--
+ * @Author: Li Jian
+ * @Date: 2021-05-19 09:57:55
+ * @LastEditTime: 2021-05-27 11:12:33
+ * @LastEditors: Li Jian
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue Ast</title>
+</head>
+<body>
+  <div id="app">
+    <!-- 节点本身是静态节点 && 而且有子节点 && 子节点不全是文本节点，则标记为静态根节点 -->
+    <!-- 静态根节点 -->
+    <span>
+      <span>静态根节点</span>
+    </span>
+    <!-- 静态根节点 -->
+    <span>
+      文本
+      <span></span>
+    </span>
+    <!-- 不是静态根节点 -->
+    <span>
+      不是静态根节点
+    </span>
+    <span v-for="(i, k) of items" :key="k">
+      <!-- 静态根节点 staticInFor: true -->
+      <span>
+        <span>静态根节点</span>
+      </span>
+      <!-- 不是静态根节点 staticInFor: true -->
+      <span v-once>
+        <span>{{ i.v }}</span>
+      </span>
+      <!-- 不是静态根节点 -->
+      {{ i.v }}
+    </span>
+    <span v-once>
+      111
+      <span></span>
+    </span>
+    {{ msg }}
+  </div>
+  <script src="../../../dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          msg: '1',
+          items: [{ v: 1 }, {v: 2} ],
+        }
+      }
+    })
+  </script>
+</body>
+</html>

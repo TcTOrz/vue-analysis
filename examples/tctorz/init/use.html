@@ -1,0 +1,52 @@
+<!--
+ * @Author: Li Jian
+ * @Date: 2021-05-19 09:57:55
+ * @LastEditTime: 2021-05-19 15:18:49
+ * @LastEditors: Li Jian
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue 源码解读</title>
+</head>
+<body>
+  <div id="app">
+    {{ msg }}
+  </div>
+  <script src="../../../dist/vue.js"></script>
+  <script>
+    // 源码 src/core/global-api/use.js
+    // 定义插件对象
+    const MyPlugin = {}
+    // 插件对象必须有一个install方法
+    MyPlugin.install = function (Vue, options) {
+      console.log('install()', options)
+
+      // 1. 添加全局方法或属性
+      Vue.myGlobalMethod = function () {
+        console.log('Vue.myGlobalMethod()')
+      }
+
+      // 2. 添加一个全局资源(asset)
+      Vue.directive('my-directive', (el, binding) => {
+        el.textContent = '------' + binding.value
+      })
+
+      // 4. 添加一个实例方法
+      Vue.prototype.$myMethod = function () {
+        console.log('vm.$myMethod()')
+      }
+    }
+    debugger
+    Vue.use(MyPlugin, {name:"luckxinxin" })
+    Vue.myGlobalMethod()
+    new Vue({
+      el: '#app',
+      data: {
+        msg: 'hello vue'
+      }
+    })
+  </script>
+</body>
+</html>

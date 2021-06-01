@@ -1,0 +1,91 @@
+<!--
+ * @Author: Li Jian
+ * @Date: 2021-05-19 09:57:55
+ * @LastEditTime: 2021-06-01 10:51:34
+ * @LastEditors: Li Jian
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue Ast</title>
+</head>
+<body>
+  <!--
+    render：
+    _c('div',
+      {attrs:{\"id\":\"app\"}},
+      [
+        _l((items),function(item,key){return _c('span',[_v(_s(item.value))])}),
+        _v(\" \"),
+        _c('br'),
+        _v(\" \"),
+        (status)?_c('span',[_v(\"show true\")]):_c('span',[_v(\"show false\")]),
+        _v(\" \"),
+        _c('br'),
+        _v(\" \"),
+        _c('input',{
+          directives:[
+            {name:\"model\",rawName:\"v-model\",value:(iValue),expression:\"iValue\"}
+          ],
+          class:dClass,
+          domProps:{\"value\":(iValue)},
+          on:{\"input\":function($event){if($event.target.composing)return;iValue=$event.target.value}}
+        }),
+        _v(\" \"+_s(iValue)+\"\\n    \"),
+        _c('br'),
+        _v(\" \"),
+        _c('button',{on:{\"click\":clk}},[_v(\"按钮\")]),
+        _v(\" \"),
+        _c('p',{pre:true},[_v(\"v-pre {{ iValue }}\")]),
+        _v(\" \"),
+        _m(0)
+      ]
+    ,2)
+  -->
+  <!-- 
+    staticRenderFns[0]:
+    with(this){return _c('p',[_v("v-once "+_s(iValue))])}
+  -->
+  <div id="app">
+    <span v-for="(item, key) in items">{{ item.value }}</span>
+    <br />
+    <span v-if="status">show true</span>
+    <span v-else>show false</span>
+    <br />
+    <input v-model="iValue" :class="dClass"/> {{ iValue }}
+    <br />
+    <button @click="clk">按钮</button>
+    <p v-pre>v-pre {{ iValue }}</p>
+    <p v-once>v-once {{ iValue }}</p>
+  </div>
+  <script src="../../../dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          status: true,
+          items: [
+            { value: 'Hello', key: 0 },
+            { value: 'World', key: 1 },
+            { value: '!', key: 2 }
+          ],
+          iValue: 'v-model',
+          dClass: 'd-class'
+        }
+      },
+      methods: {
+        clk() {
+          this.status = !this.status
+        }
+      }
+    })
+  </script>
+  <style>
+    .d-class {
+      color: brown;
+    }
+  </style>
+</body>
+</html>

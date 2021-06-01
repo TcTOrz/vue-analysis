@@ -1,0 +1,124 @@
+<!--
+ * @Author: Li Jian
+ * @Date: 2021-05-19 09:57:55
+ * @LastEditTime: 2021-05-27 10:32:39
+ * @LastEditors: Li Jian
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue Ast</title>
+</head>
+<body>
+  <div id="app">
+    <!-- 静态根节点 -->
+    <span>
+      <span>静态根节点</span>
+    </span>
+    <span>
+      不是静态根节点
+    </span>
+    </span>
+    <!-- v-if & dynamicAttr -->
+    <h1 v-if="status" :class="dynamicAttr">ok</h1>
+    <!-- v-else & staticAttr -->
+    <h1 v-else class="staticAttr">not ok</h1>
+    <button @click="changeStatus">按钮: {{ status }}</button>
+    <!-- v-model -->
+    <input v-model="msg" />
+    <!-- v-pre -->
+    <span v-pre>不会更新:{{ msg }}</span>
+    <pre>{{ msg }}</pre>
+    <!-- components -->
+    <test-component></test-component>
+    <!-- components-v-for -->
+    <component-a></component-a>
+  </div>
+  <script src="../../../dist/vue.js"></script>
+  <script>
+    // 全局组件
+    Vue.component(
+      'test-component',
+      {
+        data() {
+          return {
+            compCount: 123,
+          }
+        },
+        template: '<div>模板输出: {{ compCount }}</div>'
+      }
+    )
+    // 局部组件
+    const componentB = {
+      props: [
+        'value'
+      ],
+      data() {
+        return {
+          compBCount: 789
+        }
+      },
+      template: '<div>局部组件输出: {{ compBCount }} - {{ value }}</div>'
+    }
+    // 局部组件
+    const componentA = {
+      data() {
+        return {
+          compACount: 456,
+          ary: [
+            {key: 0, value: 'key0'},
+            {key: 1, value: 'key1'},
+            {key: 2, value: 'key2'},
+            {key: 3, value: 'key3'},
+          ]
+        }
+      },
+      components: {
+        'component-b': componentB
+      },
+      template: `<div>局部组件输出: {{ compACount }}
+          <component-b v-for='(item, key) in ary' :key=item.key :value="item.value"></component-b>
+        </div>`
+    }
+    new Vue({
+      el: '#app',
+      data: {
+        msg: 'hello vue',
+        status: true,
+        dynamicAttr: 'brownClass'
+      },
+      components: {
+        'component-a': componentA
+      },
+      mounted() {
+        const intervalId = setInterval(() => {
+          // console.log(this.dynamicAttr);
+          this.dynamicAttr === 'brownClass'
+            ? (this.dynamicAttr = 'yellowClass')
+            : (this.dynamicAttr = 'brownClass')
+        }, 1000)
+        this.$once('hook:beforeDestroy', function() {
+          clearInterval(intervalId)
+        })
+      },
+      methods: {
+        changeStatus() {
+          this.status = !this.status
+        }
+      }
+    })
+  </script>
+  <style>
+    .brownClass {
+      color: brown;
+    }
+    .yellowClass {
+      color: yellow;
+    }
+    .staticAttr {
+      color: green;
+    }
+  </style>
+</body>
+</html>
