@@ -11,6 +11,17 @@
 
 初始化大概就做了上面这几件事，其中每一步又包含了对函数的各种处理，比如说options合并，props，data，method等对象的初始化，响应式的处理，render函数的生成，patch处理Vnode生成DOM。
 
+### 响应式原理
+
+- 首先，observe观察对象，并为该对象创建Observer实例。
+- 在观察的过程中给每个Observer实例初始化一个Dep实例，此时，还未进行依赖收集。Dep(dependence)依赖，用来收集Watcher实例。
+- 挂载/初始化过程中实例化Watcher，实例化Watcher的过程中，会触发(render函数触发的)响应式的getter方法，此时，会进行依赖收集，当前的Watcher实例会被写入到的Dep中(只有在Watcher实例化过程中读取的对象里的Dep才会被写入Watcher)，此时，VNode中的数据被更新。
+- 当被观察的数据改动时，会触发响应式的setter方法，这时会触发dep.notify，此时，当前对象绑定的Dep实例中的Watcher实例会被触发，并再一次触发响应式getter方法，再一次进行依赖收集，在这过程中，VNode中的数据再次被更新。
+
+> 注意: Dep和Watcher是多对多的关系。即一个Dep实例中可能有多个Watcher(比如watch+compute+渲染Watcher)，一个Watcher中也可能有多个Dep(这个基本上都是)。
+
+可能解释的有些绕，我也想用一个简单的比喻来解释这一过程，可惜，想了很久，没有想法到一个合适的例子。
+
 ### 另外
 
 部分注释是vscode自动加上的，比如每个页面页头位置，懒得改了，请忽略~

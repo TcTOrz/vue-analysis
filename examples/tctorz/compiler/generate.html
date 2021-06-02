@@ -1,7 +1,7 @@
 <!--
  * @Author: Li Jian
  * @Date: 2021-05-19 09:57:55
- * @LastEditTime: 2021-06-01 10:51:34
+ * @LastEditTime: 2021-06-02 10:44:45
  * @LastEditors: Li Jian
 -->
 <!DOCTYPE html>
@@ -58,6 +58,8 @@
     <button @click="clk">按钮</button>
     <p v-pre>v-pre {{ iValue }}</p>
     <p v-once>v-once {{ iValue }}</p>
+    {{ testW }}
+    {{ testC }}
   </div>
   <script src="../../../dist/vue.js"></script>
   <script>
@@ -72,7 +74,20 @@
             { value: '!', key: 2 }
           ],
           iValue: 'v-model',
-          dClass: 'd-class'
+          dClass: 'd-class',
+          testW: '我现在开启啦~'
+        }
+      },
+      watch: {
+        status() {
+          this.testW = this.status ? '我现在开启啦~' : '我现在关闭啦~'
+        }
+      },
+      computed: {
+        testC: {
+          get: function() {
+            return this.status? '我现在开启啦！': '我现在关闭啦！'
+          },
         }
       },
       methods: {
