@@ -1,7 +1,7 @@
 <!--
  * @Author: Li Jian
  * @Date: 2021-03-24 13:23:17
- * @LastEditTime: 2021-06-03 12:16:22
+ * @LastEditTime: 2021-06-03 17:06:14
  * @LastEditors: Li Jian
 -->
 > 基于Vue 2.6.12注释，部分注释摘自其他人。
@@ -40,12 +40,18 @@
 
 Watcher实例化顺序: computed Watcher -> render Watcher。
 
-而在渲染时，先运行渲染Watcher中的get方法，进而在标签中找到需要被computed的值(这个值已经提前被响应)->嵌套运行computed Watcher中的代码
+而在渲染时，先运行渲染Watcher中的get方法，进而在template中找到需要被computed的值->嵌套运行computed Watcher中的代码
 更新一定是渲染Watcher触发更新，而computed Watcher只是做辅助(lazy、dirty)作用。
+
+起到缓存作用的也是dirty参数，当值被更新时，dirty设为false，进行缓存。在实例化时将dirty值传给lazy属性并保留，当值改变时触发set，则将dirty变为true，触发更新。
 
 ### watch原理
 
 本质上，watch也是一个Watcher实例。但是注意，在实例化时，初始化值中 user = true，标识为用户watcher。
+
+watch 中的Watcher实例也是先于render Watcher前执行的。此时，schedule队列的作用在这里可以看出。
+
+immediate: true 当前表达式立即触发回调。发生在render Watcher实例化之前。
 
 ### 另外
 
