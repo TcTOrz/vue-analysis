@@ -1,7 +1,7 @@
 <!--
  * @Author: Li Jian
  * @Date: 2021-03-24 13:23:17
- * @LastEditTime: 2021-06-03 17:06:14
+ * @LastEditTime: 2021-06-04 11:39:20
  * @LastEditors: Li Jian
 -->
 > 基于Vue 2.6.12注释，部分注释摘自其他人。
@@ -52,6 +52,13 @@ Watcher实例化顺序: computed Watcher -> render Watcher。
 watch 中的Watcher实例也是先于render Watcher前执行的。此时，schedule队列的作用在这里可以看出。
 
 immediate: true 当前表达式立即触发回调。发生在render Watcher实例化之前。
+
+### 总结
+
+其实总结下来我觉得就一句话，每个数据都有其绑定的Dep，Dep中包含的所有与本数据相关的Watcher，当该数据改变时，找到当前数据的Dep，并遍历其包含的Watcher进行一一更新。
+
+Watcher中包含若干Dep: 哪些数据使用该Watcher，用来筛选去重相同的dep。
+Dep中包含若干Watcher: 用于更新每个Watcher中的函数。
 
 ### 另外
 

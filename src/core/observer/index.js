@@ -158,6 +158,8 @@ export function defineReactive (
   const dep = new Dep()
 
   // 获取obj[key]的属性描述符，不可配置直接返回
+  // 实战中，如果遇到不需要被修改的值，
+  // 完全可以用Object.freeze()来冻结对象，这样对象就可以不被响应化了。
   const property = Object.getOwnPropertyDescriptor(obj, key)
   if (property && property.configurable === false) {
     return

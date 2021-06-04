@@ -93,6 +93,7 @@ function flushSchedulerQueue () {
   // 3、如果一个组件在父组件的 watcher 执行期间被销毁，那么它对应的 watcher 执行都可以被跳过，所以父组件的 watcher 应该先执行。
   queue.sort((a, b) => a.id - b.id)
 
+  // watch方法触发使得queue.length不断增加
   // do not cache length because more watchers might be pushed
   // as we run existing watchers
   for (index = 0; index < queue.length; index++) {

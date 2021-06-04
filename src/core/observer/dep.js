@@ -1,7 +1,7 @@
 /*
  * @Author: Li Jian
  * @Date: 2021-03-24 13:23:17
- * @LastEditTime: 2021-05-18 11:43:58
+ * @LastEditTime: 2021-06-03 11:21:25
  * @LastEditors: Li Jian
  */
 /* @flow */
@@ -83,7 +83,7 @@ export function pushTarget (target: ?Watcher) {
   Dep.target = target
 }
 
-// 依赖收集结束调用，设置 Dep.target = null
+// 依赖收集结束调用
 export function popTarget () {
   targetStack.pop()
   Dep.target = targetStack[targetStack.length - 1]

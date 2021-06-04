@@ -218,7 +218,7 @@ function initComputed (vm: Component, computed: Object) {
         vm,
         getter || noop,
         noop,
-        computedWatcherOptions // 配置，默认懒执行
+        computedWatcherOptions // 配置，默认懒执行，实例化后，lazy作为标志位，当值被set后，通过lazy将dirty设为true
       )
     }
 
@@ -295,7 +295,9 @@ function createComputedGetter (key) {
       if (watcher.dirty) {
         watcher.evaluate()
       }
+      // 此时的Dep.target指向上一个Watcher，一般是渲染Watcher
       if (Dep.target) {
+        // computed watcher add dep，相应的dep中增加上一个Watcher
         watcher.depend()
       }
       return watcher.value
