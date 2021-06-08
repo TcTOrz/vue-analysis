@@ -1,3 +1,9 @@
+/*
+ * @Author: Li Jian
+ * @Date: 2021-03-24 13:23:17
+ * @LastEditTime: 2021-06-08 15:53:52
+ * @LastEditors: Li Jian
+ */
 // register the grid component
 Vue.component('demo-grid', {
   template: '#grid-template',
@@ -60,8 +66,8 @@ var demo = new Vue({
     searchQuery: '',
     gridColumns: ['name', 'power'],
     gridData: [
-      { name: 'Chuck Norris', power: Infinity },
       { name: 'Bruce Lee', power: 9000 },
+      { name: 'Chuck Norris', power: Infinity },
       { name: 'Jackie Chan', power: 7000 },
       { name: 'Jet Li', power: 8000 }
     ]

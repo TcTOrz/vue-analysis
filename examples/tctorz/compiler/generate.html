@@ -1,7 +1,7 @@
 <!--
  * @Author: Li Jian
  * @Date: 2021-05-19 09:57:55
- * @LastEditTime: 2021-06-03 16:43:14
+ * @LastEditTime: 2021-06-08 14:45:47
  * @LastEditors: Li Jian
 -->
 <!DOCTYPE html>
@@ -79,12 +79,15 @@
           ],
           iValue: 'v-model',
           dClass: 'd-class',
-          testW: '我现在开启啦~'
+          testW: '我现在关闭啦~'
         }
       },
       watch: {
-        status() {
-          this.testW = this.status ? '我现在开启啦~' : '我现在关闭啦~'
+        status: {
+          handler: function() {
+            this.testW = this.status ? '我现在开启啦~' : '我现在关闭啦~'
+          },
+          immediate: true
         }
       },
       computed: {
@@ -92,7 +95,7 @@
           get: function() {
             return this.status? '我现在开启啦！': '我现在关闭啦！'
           },
-        }
+        },
       },
       methods: {
         clk() {
