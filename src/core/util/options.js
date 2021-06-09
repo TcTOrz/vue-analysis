@@ -426,7 +426,7 @@ export function mergeOptions (
 
   const options = {}
   let key
-  // 先遍历父类，以父类为原型添加子类
+  // 先遍历父类，合并父类和子类
   for (key in parent) {
     mergeField(key)
   }
