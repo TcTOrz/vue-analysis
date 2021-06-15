@@ -1,7 +1,7 @@
 <!--
  * @Author: Li Jian
  * @Date: 2021-03-24 13:23:17
- * @LastEditTime: 2021-06-09 16:22:41
+ * @LastEditTime: 2021-06-10 14:35:48
  * @LastEditors: Li Jian
 -->
 > 基于Vue 2.6.12注释，部分注释摘自其他人。
@@ -75,6 +75,9 @@ immediate: true 当前表达式立即触发回调。发生在render Watcher实�
 - 初始化Inject函数 -> 响应式(props -> methods -> data -> computed -> watch) -> 初始化Provide函数 -> 调用created钩子
 - 开始挂载 -> 开始编译html -> 执行parse函数，将html转化成AST抽象语法树 -> 优化AST，标记静态节点和静态根节点 -> 生成render函数 -> 编译结束 -> 调用beforeMount钩子
 - 实例化渲染Watcher -> 执行render函数(期间触发响应式getter，添加依赖) -> 执行patch函数(diff算法) -> 调用mounted钩子
+
+组件生命周期顺序，先子后父
+父beforeCreate -> 父created -> 父beforeMount -> 子beforeCreate -> 子created -> 子beforeMount -> 子mounted -> 父mounted
 
 ### 总结
 
